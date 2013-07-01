@@ -1,5 +1,4 @@
 # ZendSkeletonModule
-====================
 
 ## Introduction
 This is a simple, skeleton module scaffolded to get you up and running when developing new modules for ZF2. This module is meant to be used as a starting place for those
