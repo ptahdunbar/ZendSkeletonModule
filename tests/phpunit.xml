@@ -1,7 +1,13 @@
-<phpunit bootstrap="./bootstrap.php" colors="true">
+<phpunit
+    colors="true"
+    bootstrap="./bootstrap.php"
+    backupGlobals="false"
+    printerFile="../vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrinter.php"
+    printerClass="NyanCat\PHPunit\ResultPrinter"
+>
     <testsuites>
-        <testsuite name="ZendSkeletonModule Test Suite">
-            <directory>./</directory>
+        <testsuite name="module-ZendSkeletonModule">
+            <directory suffix="Test.php">./phpunit/ZendSkeletonModuleTest</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,50 +1,23 @@
 <?php
-return array(
-    'controllers' => array(
-        'invokables' => array(
-            'ZendSkeletonModule\Controller\Skeleton' => 'ZendSkeletonModule\Controller\SkeletonController',
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'module-name-here' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    // Change this to something specific to your module
-                    'route'    => '/module-specific-root',
-                    'defaults' => array(
-                        // Change this value to reflect the namespace in which
-                        // the controllers for your module are found
-                        '__NAMESPACE__' => 'ZendSkeletonModule\Controller',
-                        'controller'    => 'Skeleton',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    // This route is a sane default when developing a module;
-                    // as you solidify the routes for your module, however,
-                    // you may want to remove it and replace it with more
-                    // specific routes.
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
-            'ZendSkeletonModule' => __DIR__ . '/../view',
-        ),
-    ),
+/**
+ * Autoload module configuration files
+ * in the autoload/ directory.
+ *
+ * File inclusion priority:
+ * - *.php
+ * - *.local.php
+ * - *.APP_ENV.php (defined in application.config.php)
+ * - *.global.php
+ */
+$config = [];
+$pattern = sprintf(
+    __DIR__ . '/autoload/*{,.local,%s,.global}.php',
+    ( defined('APP_ENV') ? APP_ENV : '' )
 );
+$configFiles = array_reverse(array_unique(array_reverse(glob($pattern, GLOB_BRACE))));
+
+foreach( $configFiles as $configFile ) {
+    $config = array_merge_recursive($config, include_once $configFile);
+}
+
+return $config;
